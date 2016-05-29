@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  php:
+    build: ./php
+    ports:
+      - "9000"
+    volumes:
+      - ./php:/var/www/html
+
+  web:
+    build: ./web
+    depends_on:
+     - php
+    image: nginx:stable
+    links:
+      - php
+    ports:
+      - "80:80"
+    volumes_from:
+      - php
