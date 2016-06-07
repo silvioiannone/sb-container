@@ -2,17 +2,48 @@ version: '2'
 
 services:
 
+  #
+  # Data container.
+  #
+  data:
+    build: ./data
+    volumes:
+     - /var/lib/mysql:/var/lib/mysql
+
+  #
+  # Relational database container.
+  #
+  db:
+    build: ./db/mysql
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    links:
+      - workspace
+    ports:
+      - "3306:3306"
+    volumes_from:
+      - data
+
+  #
+  # PHP container.
+  #
   php:
     build: ./php
-    ports:
+    links:
+      - workspace
+    expose:
       - "9000"
     volumes:
-      - ./php:/var/www/html
+      - ..:/var/www/html
 
+  #
+  # Web server container.
+  #
   web:
-    build: ./web
-    depends_on:
-     - php
+    build: ./web/nginx
     image: nginx:stable
     links:
       - php
@@ -20,3 +51,9 @@ services:
       - "80:80"
     volumes_from:
       - php
+
+  #
+  # Workspace container.
+  #
+  workspace:
+    build: ./workspace
