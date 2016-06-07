@@ -36,8 +36,8 @@ services:
       - workspace
     expose:
       - "9000"
-    volumes:
-      - ..:/var/www/html
+    volumes_from:
+      - workspace
 
   #
   # Web server container.
@@ -57,3 +57,5 @@ services:
   #
   workspace:
     build: ./workspace
+    volumes:
+     - ..:/var/www/html
