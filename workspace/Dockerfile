@@ -39,22 +39,21 @@ RUN apt-get update && apt-get install -y --force-yes \
     git \
     curl \
     vim \
-    nano \
-    nodejs \
-    nodejs-dev \
-    npm
+    nano
 
 # Clean up, to free some space
 RUN apt-get clean
+
+# Install node (this is needed because Ubuntu ships with old versions of node
+# and npm)
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
 
 # Install gulp with NPM
 RUN npm install -g gulp
 
 # Link the global gulp to be used locally
 RUN npm link gulp
-
-# Add a symbolic link for Node
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Add an alias for PHPUnit
 RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
