@@ -8,7 +8,7 @@ services:
   data:
     build: ./data
     volumes:
-     - /var/lib/mysql:/var/lib/mysql
+     - ./data/mysql:/var/lib/mysql
 
   #
   # Relational database container.
@@ -55,6 +55,12 @@ services:
   #
   workspace:
     build: ./workspace
+    depends_on:
+      - db
+    ports:
+      # Expose browser sync ports.
+      - "3000:3000"
+      - "3001:3001"
     tty: true
     volumes:
       - ..:/var/www/html
