@@ -9,6 +9,7 @@ services:
     build: ./data
     volumes:
      - ./data/mysql:/var/lib/mysql
+     - ./data/redis:/data
 
   #
   # Relational database container.
@@ -25,6 +26,13 @@ services:
     volumes_from:
       - data
 
+  node:
+    build: ./web/node
+    ports:
+      - "8888:8888"
+    volumes_from:
+      - workspace
+
   #
   # PHP container.
   #
@@ -32,10 +40,18 @@ services:
     build: ./php
     links:
       - workspace
-    expose:
-      - "9000"
     volumes_from:
       - workspace
+
+  #
+  # In memory data store
+  #
+  redis:
+    build: ./db/redis
+    ports:
+      - "6379:6379"
+    volumes_from:
+      - data
 
   #
   # Web server container.
@@ -61,8 +77,10 @@ services:
       # Expose browser sync ports.
       - "3000:3000"
       - "3001:3001"
+      # Expose the websocket server port. This is useful when running the WS
+      # server from inside the workspace container instead of the node
+      # container.
+      - "6001:6001"
     tty: true
     volumes:
       - ..:/var/www/html
-      # Include the host ssh keys
-      - ~/.ssh:/root/.ssh:ro
