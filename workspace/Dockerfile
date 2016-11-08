@@ -49,8 +49,10 @@ RUN apt-get clean
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 
-# Install gulp with NPM
+# Install dependencies
 RUN npm install -g gulp
+RUN npm install -g webpack
+RUN npm install -g laravel-echo-server
 
 # Link the global gulp to be used locally
 RUN npm link gulp
