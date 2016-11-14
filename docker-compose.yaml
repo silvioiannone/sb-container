@@ -4,6 +4,7 @@ services:
 
   #
   # Data container.
+  # This is where the databases will store the data.
   #
   data:
     build: ./data
@@ -23,6 +24,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    # Needs to store the files in the data container.
     volumes_from:
       - data
 
@@ -30,6 +32,7 @@ services:
     build: ./web/node
     ports:
       - "8888:8888"
+    # Needs the workspace volumes in order to run js scripts in there.
     volumes_from:
       - workspace
 
@@ -38,18 +41,18 @@ services:
   #
   php:
     build: ./php
-    links:
-      - workspace
+    # Needs the workspace volumes in order to run PHP scripts.
     volumes_from:
       - workspace
 
   #
-  # In memory data store
+  # In memory data store.
   #
   redis:
     build: ./db/redis
     ports:
       - "6379:6379"
+    # Needs the data volumes in order to store data.
     volumes_from:
       - data
 
@@ -59,20 +62,20 @@ services:
   web:
     build: ./web/nginx
     image: nginx:stable
+    # Needs access to the php container in order to execute the requests.
     links:
       - php
+      - workspace
     ports:
       - "80:80"
     volumes_from:
-      - php
+      - workspace
 
   #
   # Workspace container.
   #
   workspace:
     build: ./workspace
-    depends_on:
-      - db
     ports:
       # Expose browser sync ports.
       - "3000:3000"
