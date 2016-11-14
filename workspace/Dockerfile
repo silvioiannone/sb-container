@@ -39,7 +39,8 @@ RUN apt-get update && apt-get install -y --force-yes \
     git \
     curl \
     vim \
-    nano
+    nano \
+    httpie
 
 # Clean up, to free some space
 RUN apt-get clean
