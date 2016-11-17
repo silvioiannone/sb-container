@@ -20,7 +20,7 @@ RUN apt-get install -y software-properties-common
 # Add the "PHP 7" ppa
 RUN add-apt-repository -y ppa:ondrej/php
 
-# Install PHP-CLI 7, some PHP extentions and some useful Tools with APT
+# Install PHP-CLI 7, some PHP extentions and some useful Tools with APT.
 RUN apt-get update && apt-get install -y --force-yes \
     php7.0-cli \
     php7.0-common \
@@ -44,6 +44,10 @@ RUN apt-get update && apt-get install -y --force-yes \
 
 # Clean up, to free some space
 RUN apt-get clean
+
+# Install Codeception
+RUN sudo curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept
+RUN sudo chmod a+x /usr/local/bin/codecept
 
 # Install node (this is needed because Ubuntu ships with old versions of node
 # and npm)
