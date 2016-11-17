@@ -74,8 +74,11 @@ RUN curl -s http://getcomposer.org/installer | php \
 RUN . ~/.bashrc
 
 # Copy the ssh keys
-COPY ssh/id_rsa /home/root/.ssh/
-COPY ssh/id_rsa.pub /home/root/.ssh/
+COPY ssh/id_rsa /root/.ssh/
+COPY ssh/id_rsa.pub /root/.ssh/
+# Change the permissions on the private key in order to avoid "permissions are
+# too open" problems.
+RUN chmod 600 ~/.ssh/id_rsa
 
 # Clean up
 RUN apt-get clean
