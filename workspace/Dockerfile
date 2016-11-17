@@ -69,6 +69,10 @@ RUN curl -s http://getcomposer.org/installer | php \
 # Source the bash
 RUN . ~/.bashrc
 
+# Copy the ssh keys
+COPY ssh/id_rsa /home/root/.ssh/
+COPY ssh/id_rsa.pub /home/root/.ssh/
+
 # Clean up
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
