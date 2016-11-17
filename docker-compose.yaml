@@ -76,6 +76,9 @@ services:
   #
   workspace:
     build: ./workspace
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     ports:
       # Expose browser sync ports.
       - "3000:3000"
