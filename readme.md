@@ -1,6 +1,6 @@
 # SBContainer
 
-SBContainer is web development docker environment that allows to run some of the
+SBContainer is a web development docker environment that allows to run some of the
 projects I'm working on (mostly Laravel projects). I built this in order to
 simplify the development process and to learn how docker is working. The main
 inspiration for this project was
