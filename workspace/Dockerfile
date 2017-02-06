@@ -46,13 +46,13 @@ RUN apt-get update && apt-get install -y --force-yes \
 RUN apt-get clean
 
 # Install Codeception
-RUN sudo curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept
-RUN sudo chmod a+x /usr/local/bin/codecept
+RUN curl -LsS http://codeception.com/codecept.phar -o /usr/local/bin/codecept
+RUN chmod a+x /usr/local/bin/codecept
 
 # Install node (this is needed because Ubuntu ships with old versions of node
 # and npm)
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
 
 # Install dependencies
 RUN npm install -g gulp
